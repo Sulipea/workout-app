@@ -1217,6 +1217,7 @@ renderToday();
 </html>
 <script>
 <script>
+<script>
 (function () {
   const intro = document.getElementById("introScreen");
   const hasSeen = localStorage.getItem("hasSeenIntro");
@@ -1227,21 +1228,15 @@ renderToday();
   }
 
   const MIN_TIME = 2200;
-  let start = Date.now();
 
-  window.addEventListener("load", function () {
-    const elapsed = Date.now() - start;
-    const remaining = Math.max(0, MIN_TIME - elapsed);
+  setTimeout(() => {
+    intro.style.opacity = "0";
 
     setTimeout(() => {
-      intro.style.opacity = "0";
+      intro.remove();
+      localStorage.setItem("hasSeenIntro", "true");
+    }, 600);
 
-      setTimeout(() => {
-        intro.remove();
-        localStorage.setItem("hasSeenIntro", "true");
-      }, 600);
-
-    }, remaining);
-  });
+  }, MIN_TIME);
 })();
 </script>
