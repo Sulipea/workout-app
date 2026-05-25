@@ -1226,29 +1226,31 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  const MIN_TIME = 2200;
+  const MIN_VISIBLE_TIME = 3500; // 👈 increase this (3.5s)
+  const FADE_TIME = 800; // slower fade
+
   const start = Date.now();
 
-  const waitUntilReady = () => {
+  function runIntro() {
     const elapsed = Date.now() - start;
-    const remaining = Math.max(0, MIN_TIME - elapsed);
+    const wait = Math.max(0, MIN_VISIBLE_TIME - elapsed);
 
     setTimeout(() => {
+      intro.style.transition = `opacity ${FADE_TIME}ms ease`;
       intro.style.opacity = "0";
 
       setTimeout(() => {
         intro.remove();
         localStorage.setItem("hasSeenIntro", "true");
-      }, 600);
+      }, FADE_TIME);
 
-    }, remaining);
-  };
+    }, wait);
+  }
 
-  // Wait for full page load, but fallback if already loaded
   if (document.readyState === "complete") {
-    waitUntilReady();
+    runIntro();
   } else {
-    window.addEventListener("load", waitUntilReady);
+    window.addEventListener("load", runIntro);
   }
 });
 </script>
