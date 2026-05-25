@@ -1217,40 +1217,22 @@ renderToday();
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const intro = document.getElementById("introScreen");
-  if (!intro) return;
 
-  const hasSeen = localStorage.getItem("hasSeenIntro");
+  // FORCE show for testing
+  localStorage.removeItem("hasSeenIntro");
 
-  if (hasSeen) {
-    intro.remove();
-    return;
-  }
+  intro.style.display = "flex";
+  intro.style.opacity = "1";
+  intro.style.zIndex = "99999";
 
-  const MIN_VISIBLE_TIME = 3500; // 👈 increase this (3.5s)
-  const FADE_TIME = 800; // slower fade
-
-  const start = Date.now();
-
-  function runIntro() {
-    const elapsed = Date.now() - start;
-    const wait = Math.max(0, MIN_VISIBLE_TIME - elapsed);
+  setTimeout(() => {
+    intro.style.opacity = "0";
 
     setTimeout(() => {
-      intro.style.transition = `opacity ${FADE_TIME}ms ease`;
-      intro.style.opacity = "0";
+      intro.remove();
+      localStorage.setItem("hasSeenIntro", "true");
+    }, 1000);
 
-      setTimeout(() => {
-        intro.remove();
-        localStorage.setItem("hasSeenIntro", "true");
-      }, FADE_TIME);
-
-    }, wait);
-  }
-
-  if (document.readyState === "complete") {
-    runIntro();
-  } else {
-    window.addEventListener("load", runIntro);
-  }
+  }, 4000); // 4 seconds visible
 });
 </script>
