@@ -1217,26 +1217,5 @@ renderToday();
 </html>
 <script>
 <script>
-<script>
-(function () {
-  const intro = document.getElementById("introScreen");
-  const hasSeen = localStorage.getItem("hasSeenIntro");
-
-  if (hasSeen) {
-    intro.remove();
-    return;
-  }
-
-  const MIN_TIME = 2200;
-
-  setTimeout(() => {
-    intro.style.opacity = "0";
-
-    setTimeout(() => {
-      intro.remove();
-      localStorage.setItem("hasSeenIntro", "true");
-    }, 600);
-
-  }, MIN_TIME);
-})();
+alert("script is running");
 </script>
