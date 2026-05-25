@@ -1216,23 +1216,32 @@ renderToday();
 </body>
 </html>
 <script>
-window.onload = function () {
-  const introSeen = localStorage.getItem("hasSeenIntro");
+<script>
+(function () {
   const intro = document.getElementById("introScreen");
+  const hasSeen = localStorage.getItem("hasSeenIntro");
 
-  if (introSeen) {
-    intro.style.display = "none";
+  if (hasSeen) {
+    intro.remove();
     return;
   }
 
-  setTimeout(() => {
-    intro.style.opacity = "0";
+  const MIN_TIME = 2200;
+  let start = Date.now();
+
+  window.addEventListener("load", function () {
+    const elapsed = Date.now() - start;
+    const remaining = Math.max(0, MIN_TIME - elapsed);
 
     setTimeout(() => {
-      intro.style.display = "none";
-      localStorage.setItem("hasSeenIntro", "true");
-    }, 600);
+      intro.style.opacity = "0";
 
-  }, 2000);
-};
+      setTimeout(() => {
+        intro.remove();
+        localStorage.setItem("hasSeenIntro", "true");
+      }, 600);
+
+    }, remaining);
+  });
+})();
 </script>
